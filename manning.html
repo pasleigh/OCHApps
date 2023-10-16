@@ -62,7 +62,7 @@
                             <input type="range" id="SlideLin_s" class="range-slider" min="0" max="10" value="2.5"
                         step="0.5" data-type="linear" />
                         </div>
-                        <div class="six-columns">Normal Depth (m)
+                        <div class="six-columns">Normal Depth y<sub>n</sub> (m)
                             <input title="Normal depth (m)" id="NormalDepth" type="text" ReadOnly="ReadOnly" />
                         </div>
 
@@ -90,13 +90,13 @@
 
                     </div>
                 </div>
-                <h3>Calculate the Normal Depth in Uniform flow</h3>
-                <p>This App calculate the depth in Uniform flow using the Manning's equation<sup>1</sup></p>
+                <h3>Calculates the Normal Depth in Uniform flow in a channel of trapezoidal cross section</h3>
+                <p>This App calculates the depth in Uniform flow using the Manning's equation<sup>1</sup></p>
                 <p class="equation">`Q=\frac{1}{n}A R^{2/3} So^{1/2}`</p>
                 <p>Area is <span class="equation">`A = \left( b + sy\right) y`</span></p>
                 <p>Wetted perimeter is <span class="equation">`P = b + 2y sqrt{1 + s^2}`</span></p>
                 <p>Hydraulic radius <span class="equation">`R = \frac{A}{P}`</span></p>
-                <p>`S_o` is the bed slope, <BR>`b` is the bed width, <BR>`s` is the side slope when `1/s = \text{vertical}/\text{horizontal}`</p>
+                <p>`S_o` is the bed slope, <BR>`b` is the bed width, <BR>`s` is the side slope when `1/s = \text{vertical}/\text{horizontal}`, so for a rectangular section `s = 0`</p>
 
                 <p>Surface width <span class="equation">`B = b+2sy`</span></p>
                 <p>Hydraulic mean Depth <span class="equation">`D_m = \frac{A}{B}`</span></p>
