@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+    <link rel="shortcut icon" href="inc/img/favicon.ico">
+    <link rel="apple-touch-icon" href="inc/img/apple-touch-icon.png">
+    <link rel="stylesheet" href="inc/css/styles.v2.min.css">
+    <link rel="stylesheet" href="inc/css/custom.v2.css">
+    <link rel="stylesheet" href="inc/css/log-slider.v2.css">
+</head>
+
+<body>
+    <script type="text/javascript" async src="inc/js/MathJax/MathJax.js?config=AM_CHTML"></script>
+    <div class="wrapper">
+        <section class="container">
+            <article class="main-content full-width clearfix">
+                <div class="panel panel-default clearfix">
+                    <div class="row">
+                        <div class="two-thirds-column">
+                            <div class="note" id="note">
+                                <h3>Quick Start</h3>
+                                <p>This is a basic demo of the new app infrastructure.</p>
+                            </div>
+                        </div>
+                        <div class="three-columns">
+                            <div class="note">
+                                <h3>Credits</h3>
+                                <p>The author credits go here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-box app clearfix">
+                    <h3>Demo</h3>
+                    <div class="panel panel-default">
+                        <div class="row" style="position: relative; height:50vh; ">
+                            <canvas id="canvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="six-columns">Lin Input
+                            <input type="range" id="SlideLin" class="range-slider" min="1" max="100" value="50"
+                                step="0.1" data-type="linear" />
+                        </div>
+                        <div class="six-columns">Log Input
+                            <input type="range" id="SlideLog" class="range-slider" min="0.01" max="100" value="1"
+                                step="0.01" data-type="log" />
+                        </div>
+                        <div class="six-columns">Multiplier
+                            <select id="Multiplier" title="Some options">
+                                <option selected="selected">1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                        <div class="six-columns">
+                            <div class="radio">
+                                <input name="xxx" title="Use Equation 1" type="radio" id="Equ1"
+                                    checked="checked">Equation 1
+                            </div>
+                        </div>
+                        <div class="six-columns">
+                            <div class="radio"><input name="xxx" title="Use Equation 2" type="radio" id="Equ2">Equation
+                                2
+                            </div>
+                        </div>
+                        <div class="six-columns">
+                            <div class="checkbox"><input name="zzz" title="Show both curves" type="checkbox"
+                                    id="Both">Both Curves</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="six-columns">First output
+                            <input title="First output" id="First" type="text" ReadOnly="ReadOnly" />
+                        </div>
+                        <div class="six-columns">Second output
+                            <input title="Second output" id="Second" type="text" ReadOnly="ReadOnly" />
+                        </div>
+                        <div class="six-columns">
+                            <button class="btn-info" id="ClickMe" title="Just another button" type="button">Click
+                                Me</button>
+                        </div>
+                    </div>
+                </div>
+                <h3>The basics of HTML (when you read the html file)</h3>
+                <p>Here is basic text. If you want to see how we can do more sophisticated graphs, just look at <a href="DemoY2.html">DemoY2.html</a>  and if you want to know about file handling, look at <a href="DemoFile.html">DemoFile.html</a>, but if you're doing this online you'll need to download <a href="../_downloads/TestFile.csv">TestFile.csv</a> file to try it out (and set its extension back to .csv if your download sets it to .xls); within the downloaded version the file is found in the inc folder.</p>
+                <h3>A section header</h3>
+                <p>To break up the text, the h3 style is a good default to use. What about other tricks?</p>
+                <p>First, here's how to include a reference<sup>1</sup> in a footnote.</p>
+                <p>Next there's an equation, written in MathJax format
+                </p>
+                <p class="equation">`x=(-b+sqrt(b^2-4ac))/(2a)`</p>
+                <div class="note">
+                    <p>And this is a note</p>
+                </div>
+                <h3>Coding</h3>
+                <p>The first thing you need is a good coding text editor. Like many people, I use Visual Studio Code which is free and very powerful. It automatically highlights all your JavaScript to help you see what's going on, as you can see when you click the Toggle Code button here.</p>
+                <p>Next, you need some basic JavaScript knowledge. If you've programmed in any other language, you'll have no trouble with JavaScript. There are plenty of free on-line JavaScript courses that will get you up to speed with most of what you need.</p>
+                <p>But don't spend too much time on the courses. Most of us solve our coding issues by searching for our problem on line and hoping that it's answered in Stack Overflow - the amazing resource where you  will find 95% of your problems already answered. Many professionals will find the Abbott apps to be poorly coded. They are right. But I'm just a scientist who codes, and if I can get the science working in adequate code, that's fine by me.  For my newer apps and App-Writer 2 the coding style and approach has been helped greatly by ace coder Sean Cooper so it's a better starting point.</p>
+                <p>The point of the App-Writer 2 infrastructure is that you follow a few (slightly tedious) protocols for getting inputs and outputs and everything else looks after itself. Most apps have for inputs a few sliders (some log, some linear), some radio buttons, a checkbox or two, a combo box and maybe a button. The outputs are a few text boxes and a graph or two. All the hard work is done for you, so you can focus on your specific calculations.</p>
+
+                <p>So that's it for this demo text!</p>
+                <div class="footnote">
+                    <p><sup>1</sup>The reference <i>with this bit in italics</i> goes here.</p>
+                </div>
+            </article>
+        </section>
+    </div>
+    <script src="inc/js/log-slider.v2.js"></script>
+    <script src="inc/js/Chart.min.js"></script>
+    <script src="inc/js/app.new.js"></script>
+    <script src="apps/demo.v2.js"></script>
+</body>
+
+</html>
