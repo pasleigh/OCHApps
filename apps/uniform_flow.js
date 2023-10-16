@@ -36,8 +36,12 @@ function Main() {
     const result = CalcIt(inputs);
 
     //Set all the text box outputs
-    document.getElementById('First').value = result.first;
-    document.getElementById('Second').value = result.second;
+    document.getElementById('NormalDepth').value = result.normal_depth.toFixed(3);
+    document.getElementById('Area').value = result.area.toFixed(3);
+    document.getElementById('SurfaceB').value = result.section_props.B.toFixed(3);
+    document.getElementById('WettedP').value = result.section_props.P.toFixed(3);
+    document.getElementById('RadiusR').value = result.section_props.R.toFixed(3);
+    document.getElementById('MeanDepthDm').value = result.section_props.Dm.toFixed(3);
     //Do all relevant plots by calling plotIt - if there's no plot, nothing happens
     //plotIt is part of the app infrastructure in app.new.js
     if(result.plots) {
@@ -58,8 +62,8 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
 	let y_1 = 1.0
 	let y_2 = 2.0
 	let tolerance = 0.001
-	let y_n = secant_manning(y_1, y_2, tolerance, linVal_Q, linVal_n, linVal_So, linVal_b, linVal_s)
-
+    let sec_props = secant_manning(y_1, y_2, tolerance, linVal_Q, linVal_n, linVal_So, linVal_b, linVal_s)
+	let y_n = sec_props.y
 
     //Now we create some plots of teh trapezoidal channel
     const plotOne = [], plotTwo = [];
@@ -124,7 +128,8 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
         lineLabels.push('Channel');
         isFilled.push(false);
         isStraight.push(true);
-         plotData.push(plotTwo);
+
+        plotData.push(plotTwo);
         lineLabels.push('Water level');
         isFilled.push(false);
         isStraight.push(true);
@@ -164,8 +169,9 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
 
    //Now we return everything - text boxes, plot and the name of the canvas, which is 'canvas' for a single plot
    return {
-        first: linVal_Q.toFixed(1),
-        second: y_n.toPrecision(3),
+        normal_depth: sec_props.y,//.toFixed(3),
+        area: sec_props.A, //.toPrecision(3),
+        section_props: sec_props,
         plots: [prmap],
         canvas: ['canvas'],
     };
@@ -216,8 +222,22 @@ function secant_manning(x1, x2, tolerance, Q, n, So, b, s)
 		{
 			console.log("Possible non-convergence: Max number of iterations exceeded = " + n );
 		}
-		
-		return x0
+
+
+        let sec_props = get_trap_section_props(x0, Q, n, So, b, s)
+
+		return sec_props
         
-        
+}
+
+function get_trap_section_props(y, Q, n, So, b, s)
+{
+    let A = (b+s*y)*y
+    let P = b+2*y*Math.sqrt(1+s*s)
+    let R = A/P
+
+    let B = b+2*s*y
+    let Dm = A/B
+
+    return {y: y, Q: Q, A: A, P: P, R: R, B: B, Dm: Dm}
 }
