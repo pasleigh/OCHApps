@@ -111,7 +111,7 @@ function CalcIt({ linVal, logVal, multiplier, useOne, useBoth }) {
         hideLegend: false, //Set to true if you don't want to see any labels/legnds.
         dottedLine: dottedLine, //An array of choices of line or dotted for each dataset
         colors: myColors, //An array of colors for each dataset
-        xLabel: 'x values&x-units', //Label for the x axis, with an & to separate the units
+        xLabel: 'x values&x-unitsx', //Label for the x axis, with an & to separate the units
         yLabel: 'y values&y-units', //Label for the y axis, with an & to separate the units
         y2Label: y2AxisInfo, //Label for the y2 axis, null if not needed
         yAxisL1R2: yAxisL1R2, //Array to say which axis each dataset goes on. Blank=Left=1

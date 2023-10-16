@@ -1,9 +1,12 @@
 //One universal basic required here to get things going once loaded
 window.onload = function() {
     //We need to set up buttons in this onload section
+    /*
     document.getElementById('ClickMe').onclick = function() {
          alert('ClickMe was clicked');
     };
+    */
+
     //restoreDefaultValues(); //Un-comment this if you want to start with defaults
     Main();
 };
@@ -23,9 +26,9 @@ function Main() {
         linVal_s: sliders.SlideLin_s.value,
 		linVal_So: sliders.SlideLin_So.value,
         //logVal: sliders.SlideLog.value,
-        multiplier: parseFloat(document.getElementById('Multiplier').value),
-        useOne: document.getElementById('Equ1').checked, //No need to check Equ2!
-        useBoth: document.getElementById('Both').checked,
+        //multiplier: parseFloat(document.getElementById('Multiplier').value),
+        //useOne: document.getElementById('Equ1').checked, //No need to check Equ2!
+        useBoth: true //document.getElementById('Both').checked,
     };
 
     //Send inputs off to CalcIt where the names are instantly available
@@ -140,8 +143,8 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
         plotData: plotData, //An array of 1 or more datasets
         lineLabels: lineLabels, //An array of labels for each dataset
         hideLegend: false, //Set to true if you don't want to see any labels/legnds.
-        xLabel: 'x, width (m)', //Label for the x axis, with an & to separate the units
-        yLabel: 'y, depth (m)', //Label for the y axis, with an & to separate the units
+        xLabel: 'x, width&m', //Label for the x axis, with an & to separate the units
+        yLabel: 'y, depth&m', //Label for the y axis, with an & to separate the units
         y2Label: null, //Label for the y2 axis, null if not needed
         yAxisL1R2: [], //Array to say which axis each dataset goes on. Blank=Left=1
         logX: false, //Is the x-axis in log form?
