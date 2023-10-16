@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo File</title>
+    <link rel="shortcut icon" href="inc/img/favicon.ico">
+    <link rel="apple-touch-icon" href="inc/img/apple-touch-icon.png">
+    <link rel="stylesheet" href="inc/css/styles.v2.min.css">
+    <link rel="stylesheet" href="inc/css/custom.v2.css">
+    <link rel="stylesheet" href="inc/css/log-slider.v2.css">
+</head>
+<body>
+<script type="text/javascript" async src="inc/js/MathJax/MathJax.js?config=AM_CHTML"></script>
+<div class="wrapper">
+    <section class="container">
+        <article class="main-content full-width clearfix">
+            <div class="panel panel-default clearfix">
+                <div class="row">
+                    <div class="two-thirds-column">
+                        <div class="note" id="note">
+                            <h3>Quick Start</h3>
+                            <p>This is adds the tricky issue of loading files and parsing the values.</p>
+                        </div>
+                    </div>
+                    <div class="three-columns">
+                        <div class="note">
+                            <h3>Credits</h3>
+                            <p>The author credits go here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-box app clearfix">
+                <h3>Demo File</h3>
+                <div class="panel panel-default">
+                    <div class="row"  style="position: relative; height:50vh; ">
+                        <canvas id="canvas"></canvas>
+                    </div>
+             </div>
+                <div class="row">
+                    <div class="six-columns">Lin Input
+                        <input type="range" id="SlideLin" class="range-slider" min="1" max="100" value="50" step="0.1"
+                            data-type="linear" />
+                    </div>
+                    <div class="six-columns">Log Input
+                        <input type="range" id="SlideLog" class="range-slider" min="0.01" max="100" value="1" step="0.01"
+                            data-type="log" />
+                    </div>
+                    <div class="six-columns">Multiplier
+                        <select id="Multiplier" title="Some options">
+                            <option selected="selected">1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </div>
+                    <div class="six-columns">
+                        <div class="radio">
+                            <input name="xxx" title="Use Equation 1" type="radio" id="Equ1" checked="checked">Equation 1
+                        </div>
+                    </div>
+                    <div class="six-columns">
+                        <div class="radio"><input name="xxx" title="Use Equation 2" type="radio" id="Equ2">Equation 2
+                        </div>
+                    </div>
+                    <div class="six-columns">
+                        <div class="checkbox"><input name="zzz" title="Show both curves" type="checkbox" id="Both">Both Curves</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six-columns">First output
+                        <input title="First output" id="First" type="text" ReadOnly="ReadOnly" />
+                    </div>
+                    <div class="six-columns">Second output
+                        <input title="Second output" id="Second" type="text" ReadOnly="ReadOnly" />
+                    </div>
+                    <div class="six-columns">
+                        <input type="file" id="Load" title="Load an isotherm"/>
+                    </div>
+                    <div class="six-columns">
+                        &nbsp; 
+                    </div>
+                   <div class="six-columns">Data
+                        <textarea id="Data" title="Demo of a text area" rows="6">Text Area Text</textarea>
+                    </div>
+               </div>
+            </div>
+             <h3>File handling</h3>
+            <p>Assuming you've seen the Demo and DemoY2, all we need to add is some notes on file handling. If you are testing this on-line then you'll need to download <a href="../_downloads/TestFile.csv">TestFile.csv</a> file to try it out (and set its extension back to .csv if your download sets it to .xls).</p>
+            <p>The button itself is a File button and requires no coding in terms of being able to get to a file. What we're concerned with is what happens when the file is chosen. Make sure you choose TestFile.csv from the inc folder as it's set up properly. It's a comma separated variable file but it could equally be space or tab separated. The important thing is that it is 3 columns and the first line contains the column headers, x, y1 and y2.</p>
+            <p>Reading/parsing a file is far too complex for us to code, so we use PapaParse, as does everyone else. When the file is chosen, the code is <code>handleFileSelect</code> which is way too complex to explain - it's just how things are done in JavaScript and like most people, I had to copy/paste. The key thing is that once it's got the data it hands over to LoadData with the text it's retrieved and that's what calls PapaParse. All these things take an unknown time and JavaScript doesn't hang around waiting. Instead, stuff happens "asynchronously" when the task is complete which takes place in <code>papaCompleteFn</code>. Only now do you need to do any coding because this is where you get your real data.</p>
+            <p>The results from PapaParse end up as a structure in <code>arguments</code> which we extract into <code>theData.data</code>. We loop through each line of theData as theRow and that's where we find our data as <code>theRow.x .y1 and .y2</code>. That's all you need to worry about - you provided the column headers, so whatever you provided, you now retrieve the data via those .headers. It's all very easy and civilized once you accept all the magic of file handling, PapaParse and asynchronous handling.</p>
+            <p>In this example we just put the data into plotOne and plotTwo, warn CalcIt that the data are coming from a file, and that's it.</p>
+        </article>
+    </section>
+</div>
+<script src="inc/js/log-slider.v2.js"></script>
+<script src="inc/js/Chart.min.js"></script>
+<script src="inc/js/app.new.js"></script>
+<script src="inc/js/papaparse.min.js"></script>
+<script src="apps/demoFile.v2.js"></script>
+</body>
+</html>
