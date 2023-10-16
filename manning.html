@@ -62,18 +62,15 @@
                             <input type="range" id="SlideLin_s" class="range-slider" min="0" max="10" value="2.5"
                         step="0.5" data-type="linear" />
                         </div>
-
-
-                    </div>
-                    <div class="row">
                         <div class="six-columns">Normal Depth (m)
                             <input title="Normal depth (m)" id="NormalDepth" type="text" ReadOnly="ReadOnly" />
                         </div>
+
+                    </div>
+                    <div class="row">
+
                         <div class="six-columns">Area (m<sup>2</sup>)
                             <input title="A (m)" id="Area" type="text" ReadOnly="ReadOnly" />
-                        </div>
-                        <div class="six-columns">Surface width, B (m)
-                            <input title="B (m)" id="SurfaceB" type="text" ReadOnly="ReadOnly" />
                         </div>
                         <div class="six-columns">Wetted Perim, P (m)
                             <input title="P (m)" id="WettedP" type="text" ReadOnly="ReadOnly" />
@@ -81,9 +78,16 @@
                         <div class="six-columns">Hydraulic Rad. R (m)
                             <input title="R (m)" id="RadiusR" type="text" ReadOnly="ReadOnly" />
                         </div>
+                        <div class="six-columns">Surface Width, B (m)
+                            <input title="B (m)" id="SurfaceB" type="text" ReadOnly="ReadOnly" />
+                        </div>
                         <div class="six-columns">Mean Depth, Dm (m)
                             <input title="Dm (m)" id="MeanDepthDm" type="text" ReadOnly="ReadOnly" />
                         </div>
+                        <div class="six-columns">Froude number, Fr
+                            <input title="Froude Number, Fr" id="Fr" type="text" ReadOnly="ReadOnly" />
+                        </div>
+
                     </div>
                 </div>
                 <h3>Calculate the Normal Depth in Uniform flow</h3>
@@ -92,8 +96,11 @@
                 <p>Area is <span class="equation">`A = \left( b + sy\right) y`</span></p>
                 <p>Wetted perimeter is <span class="equation">`P = b + 2y sqrt{1 + s^2}`</span></p>
                 <p>Hydraulic radius <span class="equation">`R = \frac{A}{P}`</span></p>
-                <p>`S_o` is the bed slope, `b` is the bed width, `s` is the side slope when `1/s = \text{vertical}/\text{horizontal}`</p>
+                <p>`S_o` is the bed slope, <BR>`b` is the bed width, <BR>`s` is the side slope when `1/s = \text{vertical}/\text{horizontal}`</p>
 
+                <p>Surface width <span class="equation">`B = b+2sy`</span></p>
+                <p>Hydraulic mean Depth <span class="equation">`D_m = \frac{A}{B}`</span></p>
+                <p>Froude number <span class="equation">`F_r = \frac{V}{\sqrt{g D_m}}`</span></p>
 
                 <div class="note">
                     <p>I hope you find this useful</p>

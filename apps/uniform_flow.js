@@ -42,6 +42,7 @@ function Main() {
     document.getElementById('WettedP').value = result.section_props.P.toFixed(3);
     document.getElementById('RadiusR').value = result.section_props.R.toFixed(3);
     document.getElementById('MeanDepthDm').value = result.section_props.Dm.toFixed(3);
+    document.getElementById('Fr').value = result.section_props.Fr.toFixed(3);
     //Do all relevant plots by calling plotIt - if there's no plot, nothing happens
     //plotIt is part of the app infrastructure in app.new.js
     if(result.plots) {
@@ -239,5 +240,9 @@ function get_trap_section_props(y, Q, n, So, b, s)
     let B = b+2*s*y
     let Dm = A/B
 
-    return {y: y, Q: Q, A: A, P: P, R: R, B: B, Dm: Dm}
+    let g = 9.81
+
+    let Fr = Q/A/Math.sqrt(g*Dm)
+
+    return {y: y, Q: Q, A: A, P: P, R: R, B: B, Dm: Dm, Fr: Fr}
 }
