@@ -1,13 +1,6 @@
 //One universal basic required here to get things going once loaded
-window.onload = function() {
+window.onload = function () {
     //We need to set up buttons in this onload section
-    /*
-    document.getElementById('ClickMe').onclick = function() {
-         alert('ClickMe was clicked');
-    };
-    */
-
-    //restoreDefaultValues(); //Un-comment this if you want to start with defaults
     Main();
 };
 
@@ -24,7 +17,7 @@ function Main() {
         linVal_n: sliders.SlideLin_n.value,
         linVal_b: sliders.SlideLin_b.value,
         linVal_s: sliders.SlideLin_s.value,
-		linVal_So: sliders.SlideLin_So.value,
+        linVal_So: sliders.SlideLin_So.value,
     };
 
     //Send inputs off to CalcIt where the names are instantly available
@@ -41,8 +34,8 @@ function Main() {
     document.getElementById('Fr').value = result.section_props.Fr.toFixed(3);
     //Do all relevant plots by calling plotIt - if there's no plot, nothing happens
     //plotIt is part of the app infrastructure in app.new.js
-    if(result.plots) {
-        for(let i = 0; i < result.plots.length; i++) {
+    if (result.plots) {
+        for (let i = 0; i < result.plots.length; i++) {
             plotIt(result.plots[i], result.canvas[i]);
         }
     }
@@ -52,11 +45,11 @@ function Main() {
 //The inputs are just the names provided - their order in the curly brackets is unimportant!
 //By convention the input values are provided with the correct units within Main
 function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
-	let y_1 = 1.0
-	let y_2 = 2.0
-	let tolerance = 0.001
+    let y_1 = 1.0
+    let y_2 = 2.0
+    let tolerance = 0.001
     let sec_props = secant_manning(y_1, y_2, tolerance, linVal_Q, linVal_n, linVal_So, linVal_b, linVal_s)
-	let y_n = sec_props.y
+    let y_n = sec_props.y
 
     //Now we create some plots of teh trapezoidal channel
     const plotOne = [], plotTwo = [];
@@ -67,22 +60,22 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
     let y2_0, y2_1, y2_2, y2_3
 
     // Channel
-    yhigh = y_n*1.1
+    yhigh = y_n * 1.1
     x1_0 = 0.0
     y1_0 = yhigh
     plotOne.push({x: x1_0, y: y1_0});
-    x1_1 = yhigh*linVal_s
+    x1_1 = yhigh * linVal_s
     y1_1 = 0.0
     plotOne.push({x: x1_1, y: y1_1});
-    x1_2 = x1_1+linVal_b
+    x1_2 = x1_1 + linVal_b
     y1_2 = 0.0
     plotOne.push({x: x1_2, y: y1_2});
-    x1_3 = x1_2+x1_1
+    x1_3 = x1_2 + x1_1
     y1_3 = y1_0
     plotOne.push({x: x1_3, y: y1_3});
 
     // Water
-    x2_0 = (yhigh-y_n)*linVal_s
+    x2_0 = (yhigh - y_n) * linVal_s
     y2_0 = y_n
     plotTwo.push({x: x2_0, y: y2_0});
     x2_1 = x1_1
@@ -91,11 +84,11 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
     x2_2 = x1_2
     y2_2 = y2_0
     plotTwo.push({x: x2_2, y: y2_2});
-    x2_3 = x1_3-x2_0
+    x2_3 = x1_3 - x2_0
     y2_3 = y2_0
     plotTwo.push({x: x2_3, y: y2_3});
 
-     //Now set up all the graphing data.
+    //Now set up all the graphing data.
     //We use the amazing Open Source Chart.js, https://www.chartjs.org/
     //A lot of the sophistication is addressed directly here
     //But if you need something more, read the Chart.js documentation or search Stack Overflow
@@ -117,12 +110,12 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
     //Some demo text to show it's possible
     let inText = []
     //yp=0 is bottom, 100 is top
-    if(sec_props.num_itts > 10) {
+    if (sec_props.num_itts > 10) {
         let label = "Number of iterations: " + sec_props.num_itts
         inText.push({txt: label, xp: 95, yp: 100, fontSize: 15, fillStyle: 'gray', bold: false})
     }
 
-   //Now set up all the graphing data detail by detail.
+    //Now set up all the graphing data detail by detail.
     const prmap = {
         plotData: plotData, //An array of 1 or more datasets
         lineLabels: lineLabels, //An array of labels for each dataset
@@ -145,10 +138,10 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
         isFilled: isFilled,
         isStraight: isStraight
     };
-   
 
-   //Now we return everything - text boxes, plot and the name of the canvas, which is 'canvas' for a single plot
-   return {
+
+    //Now we return everything - text boxes, plot and the name of the canvas, which is 'canvas' for a single plot
+    return {
         normal_depth: sec_props.y,//.toFixed(3),
         area: sec_props.A, //.toPrecision(3),
         section_props: sec_props,
@@ -159,67 +152,63 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
 
 
 // Secant method for mannings equation
-function f(y, Q, n, So, b, s)
-{
+function f(y, Q, n, So, b, s) {
     // we are using the mannin'g equation for a trapezoidal channel
-	let A = (b+s*y)*y
-	let P = b+2*y*Math.sqrt(1+s*s)
-	let R = A/P
-	
-	let f = A * Math.pow(R, 2/3) * Math.sqrt(So)/n
-	f = Q-f
-    
-	return f;
+    let A = (b + s * y) * y
+    let P = b + 2 * y * Math.sqrt(1 + s * s)
+    let R = A / P
+
+    let f = A * Math.pow(R, 2 / 3) * Math.sqrt(So) / n
+    f = Q - f
+
+    return f;
 }
 
-function secant_manning(y1, y2, tolerance, Q, n, So, b, s)
-{
+function secant_manning(y1, y2, tolerance, Q, n, So, b, s) {
     let i = 0, y0
-	let i_max = 20
-	
-        do {
-            // calculate the intermediate value
-			let f1 = f(y1, Q, n, So, b, s)
-			let f2 = f(y2, Q, n, So, b, s)
-			
-			let dy = f2*(y2-y1)/(f2-f1)
-			y0 = y2-dy
+    let i_max = 20
 
-            // if x0 is the root of equation then break the loop
-			if (Math.abs(dy) < tolerance)
-				break;
-			
-            // update the value of interval
-            y1 = y2;
-            y2 = y0;
-            // update number of iterations
-            i++;
-        } while (i < i_max); // repeat the loop until the convergence
+    do {
+        // calculate the intermediate value
+        let f1 = f(y1, Q, n, So, b, s)
+        let f2 = f(y2, Q, n, So, b, s)
 
-		if(i >= i_max)
-		{
-			console.log("Possible non-convergence: Max number of iterations exceeded = " + i );
-		}
+        let dy = f2 * (y2 - y1) / (f2 - f1)
+        y0 = y2 - dy
+
+        // if x0 is the root of equation then break the loop
+        if (Math.abs(dy) < tolerance)
+            break;
+
+        // update the value of interval
+        y1 = y2;
+        y2 = y0;
+        // update number of iterations
+        i++;
+    } while (i < i_max); // repeat the loop until the convergence
+
+    if (i >= i_max) {
+        console.log("Possible non-convergence: Max number of iterations exceeded = " + i);
+    }
 
 
-        let sec_props = get_trap_section_props(y0, Q, n, So, b, s)
-        sec_props.num_itts = i
-		return sec_props
-        
+    let sec_props = get_trap_section_props(y0, Q, n, So, b, s)
+    sec_props.num_itts = i
+    return sec_props
+
 }
 
-function get_trap_section_props(y, Q, n, So, b, s)
-{
-    let A = (b+s*y)*y
-    let P = b+2*y*Math.sqrt(1+s*s)
-    let R = A/P
+function get_trap_section_props(y, Q, n, So, b, s) {
+    let A = (b + s * y) * y
+    let P = b + 2 * y * Math.sqrt(1 + s * s)
+    let R = A / P
 
-    let B = b+2*s*y
-    let Dm = A/B
+    let B = b + 2 * s * y
+    let Dm = A / B
 
     let g = 9.81
 
-    let Fr = Q/A/Math.sqrt(g*Dm)
+    let Fr = Q / A / Math.sqrt(g * Dm)
 
     return {y: y, Q: Q, A: A, P: P, R: R, B: B, Dm: Dm, Fr: Fr}
 }
