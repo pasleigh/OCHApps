@@ -25,10 +25,6 @@ function Main() {
         linVal_b: sliders.SlideLin_b.value,
         linVal_s: sliders.SlideLin_s.value,
 		linVal_So: sliders.SlideLin_So.value,
-        //logVal: sliders.SlideLog.value,
-        //multiplier: parseFloat(document.getElementById('Multiplier').value),
-        //useOne: document.getElementById('Equ1').checked, //No need to check Equ2!
-        useBoth: true //document.getElementById('Both').checked,
     };
 
     //Send inputs off to CalcIt where the names are instantly available
@@ -50,16 +46,12 @@ function Main() {
             plotIt(result.plots[i], result.canvas[i]);
         }
     }
-
-    //You might have some other stuff to do here, but for most apps that's it for Main!
 }
 
 //Here's the app calculation
 //The inputs are just the names provided - their order in the curly brackets is unimportant!
 //By convention the input values are provided with the correct units within Main
-function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, useOne, useBoth}) {
-
-
+function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
 	let y_1 = 1.0
 	let y_2 = 2.0
 	let tolerance = 0.001
@@ -103,18 +95,6 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
     y2_3 = y2_0
     plotTwo.push({x: x2_3, y: y2_3});
 
-    /*
-    for(let i = 0; i <= 4; i++) {
-        xval = i;
-        y1 = linVal_Q;
-        y2 = linVal_n;
-        //All graph data consists of x:xval, y:yval pairs in curly brackets
-        //Pushed onto the plot data
-        plotOne.push({x: xval, y: y1});
-        plotTwo.push({x: xval, y: y2});
-    }
-    */
-    
      //Now set up all the graphing data.
     //We use the amazing Open Source Chart.js, https://www.chartjs.org/
     //A lot of the sophistication is addressed directly here
@@ -123,25 +103,23 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
     //Usually we can put these directly into the graph data
     //But they depend on the setup in this example
     let plotData = [], lineLabels = [], isFilled = [], isStraight = []
-    //Code to set up the variables to go into the plot
-    if (useBoth) {
-        plotData.push(plotOne);
-        lineLabels.push('Channel');
-        isFilled.push(false);
-        isStraight.push(true);
 
-        plotData.push(plotTwo);
-        lineLabels.push('Water level');
-        isFilled.push(false);
-        isStraight.push(true);
-      } else {
-        if (useOne) {
-            plotData.push(plotOne);
-            lineLabels.push('Channel');
-        } else {
-            plotData.push(plotTwo);
-            lineLabels.push('Water level');
-        }
+    plotData.push(plotOne);
+    lineLabels.push('Channel');
+    isFilled.push(false);
+    isStraight.push(true);
+
+    plotData.push(plotTwo);
+    lineLabels.push('Water level');
+    isFilled.push(false);
+    isStraight.push(true);
+
+    //Some demo text to show it's possible
+    let inText = []
+    //yp=0 is bottom, 100 is top
+    if(sec_props.num_itts > 10) {
+        let label = "Number of iterations: " + sec_props.num_itts
+        inText.push({txt: label, xp: 95, yp: 100, fontSize: 15, fillStyle: 'gray', bold: false})
     }
 
    //Now set up all the graphing data detail by detail.
@@ -149,7 +127,7 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
         plotData: plotData, //An array of 1 or more datasets
         lineLabels: lineLabels, //An array of labels for each dataset
         hideLegend: false, //Set to true if you don't want to see any labels/legnds.
-        xLabel: 'x, width&m', //Label for the x axis, with an & to separate the units
+        xLabel: 'x, distance&m', //Label for the x axis, with an & to separate the units
         yLabel: 'y, depth&m', //Label for the y axis, with an & to separate the units
         y2Label: null, //Label for the y2 axis, null if not needed
         yAxisL1R2: [], //Array to say which axis each dataset goes on. Blank=Left=1
@@ -161,8 +139,9 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So, multiplier, 
         xMinMax: [,], //Set min and max, e.g. [-10,100], leave one or both blank for auto
         yMinMax: [,], //Set min and max, e.g. [-10,100], leave one or both blank for auto
         y2MinMax: [,], //Set min and max, e.g. [-10,100], leave one or both blank for auto
-        xSigFigs: 'F0', //These are the sig figs for the Tooltip readout. A wide choice!
-        ySigFigs: 'F0', //F for Fixed, P for Precision, E for exponential
+        xSigFigs: 'F1', //These are the sig figs for the Tooltip readout. A wide choice!
+        ySigFigs: 'F3', //F for Fixed, P for Precision, E for exponential
+        inText: inText, //See the code for what this does
         isFilled: isFilled,
         isStraight: isStraight
     };
@@ -193,40 +172,38 @@ function f(y, Q, n, So, b, s)
 	return f;
 }
 
-function secant_manning(x1, x2, tolerance, Q, n, So, b, s)
+function secant_manning(y1, y2, tolerance, Q, n, So, b, s)
 {
-    let i = 0, xm, x0, c;
+    let i = 0, y0
 	let i_max = 20
 	
         do {
             // calculate the intermediate value
-			let f1 = f(x1, Q, n, So, b, s)
-			let f2 = f(x2, Q, n, So, b, s)
+			let f1 = f(y1, Q, n, So, b, s)
+			let f2 = f(y2, Q, n, So, b, s)
 			
-			let dx = f2*(x2-x1)/(f2-f1) 
-			x0 = x2-dx
- 
+			let dy = f2*(y2-y1)/(f2-f1)
+			y0 = y2-dy
 
- 
             // if x0 is the root of equation then break the loop
-			if (Math.abs(dx) < tolerance)
+			if (Math.abs(dy) < tolerance)
 				break;
 			
-			            // update the value of interval
-            x1 = x2;
-            x2 = x0;
-            // update number of iteration
+            // update the value of interval
+            y1 = y2;
+            y2 = y0;
+            // update number of iterations
             i++;
-        } while (i < i_max); // repeat the loop
-                                // until the convergence
+        } while (i < i_max); // repeat the loop until the convergence
+
 		if(i >= i_max)
 		{
-			console.log("Possible non-convergence: Max number of iterations exceeded = " + n );
+			console.log("Possible non-convergence: Max number of iterations exceeded = " + i );
 		}
 
 
-        let sec_props = get_trap_section_props(x0, Q, n, So, b, s)
-
+        let sec_props = get_trap_section_props(y0, Q, n, So, b, s)
+        sec_props.num_itts = i
 		return sec_props
         
 }
