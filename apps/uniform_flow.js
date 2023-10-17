@@ -112,7 +112,7 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
     //yp=0 is bottom, 100 is top
     if (sec_props.num_itts > 10) {
         let label = "Number of iterations: " + sec_props.num_itts
-        inText.push({txt: label, xp: 95, yp: 100, fontSize: 15, fillStyle: 'gray', bold: false})
+        inText.push({txt: label, xp: 85, yp: 100, fontSize: 15, fillStyle: 'gray', bold: false})
     }
 
     //Now set up all the graphing data detail by detail.
