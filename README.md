@@ -1,6 +1,8 @@
 # OCHApps
 Some small apps for Open Channel Hydraulics calcs
 
+All in metric units only
+
 List of Apps
 
 1. Normal Depth Calculation in *Uniform Flow* using the Manning's Equation
