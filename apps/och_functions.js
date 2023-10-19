@@ -84,8 +84,10 @@ function SecantCubic(A , B , C , D, error , num , y0 , y1, debug) {
         let f1 = f_cubic(A, B, C, D, y1)
 
         if (debug > 0){
-            console.log(`SecantCubic: ${i} y0=${y0} f0=${f0}`)
-            console.log(`SecantCubic: ${i} y1=${y1} f1=${f1}`)
+            //console.log(`SecantCubic: ${i} y0=${y0} f0=${f0}`)
+            //console.log(`SecantCubic: ${i} y1=${y1} f1=${f1}`)
+            console.log(sprintf("SecantCubic: %d y0=%6.3f f0=%6.3f",i,y0,f0))
+            console.log(sprintf("SecantCubic: %d y1=%6.3f f1=%6.3f",i,y1,f1))
         }
 
         if (f0 === f1){
@@ -97,7 +99,8 @@ function SecantCubic(A , B , C , D, error , num , y0 , y1, debug) {
         y2 = y0 - f0 * (y1 - y0) / (f1 - f0)
         let f2 = f_cubic(A, B, C, D, y2)
         if (debug > 0){
-            console.log(`SecantCubic: ${i} y2=${y2} f2=${f2}`)
+            //console.log(`SecantCubic: ${i} y2=${y2} f2=${f2}`)
+            console.log(sprintf("SecantCubic: %d y2=%6.3f f2=%6.3f",i,y2,f2))
         }
         y0 = y1
         y1 = y2
@@ -134,7 +137,8 @@ function GetHighestCubicDepth(A, B, C, D, error, num, y_low, y_high, num_interva
         let f1 = f_cubic(A, B, C, D, y1)
 
         if (debug > 1){
-            console.log(`HighestCubicDepth: y0=${y0} f0=${f0} y1=${y1} f1=${f1}` )
+            //console.log(`HighestCubicDepth: y0=${y0} f0=${f0} y1=${y1} f1=${f1}` )
+            console.log(sprintf("HighestCubicDepth: y0=%6.3f f0=%6.3f y1=%6.3f f1=%6.3f",y0,f0,y1,f1))
         }
 
         if (f0 * f1 < 0){
@@ -165,7 +169,8 @@ function GetPositiveCubicDepths(A, B, C, D, error, num, y_low, y_high, num_inter
         let f1 = f_cubic(A, B, C, D, y1)
 
         if (debug > 1){
-            console.log(`GetPositiveCubicDepths: y0=${y0} f0=${f0} y1=${y1} f1=${f1}`)
+            //console.log(`GetPositiveCubicDepths: y0=${y0} f0=${f0} y1=${y1} f1=${f1}`)
+            console.log(sprintf("GetPositiveCubicDepths: y0=%6.3f f0=%6.3f y1=%6.3f f1=%6.3f",y0,f0,y1,f1))
         }
 
         if (f0 * f1 < 0){
@@ -195,34 +200,31 @@ function TestSecantEnergyFunctions(){
     let y1 = -0.4
     let y2 = 0
     y2 = SecantCubic(A , B , C , D, tolerance , max_iterations , y1 , y2, debug)
-    console.log(`Solution 1 is: y = ${y2}`)
-
+    console.log(sprintf("Solution 1 is: y = %6.3f",y2))
 
     y1 = 0.5
     y2 = 0.7
     y2 = SecantCubic(A , B , C , D, tolerance , max_iterations , y1 , y2, debug)
-    console.log(`Solution 2 is: y = ${y2}`)
+    console.log(sprintf("Solution 2 is: y = %6.3f",y2))
 
 
     y1 = 1.0
     y2 = 2
     y2 = SecantCubic(A , B , C , D, tolerance , max_iterations , y1 , y2, debug)
-    console.log(`Solution 3 is: y = ${y2}`)
+    console.log(sprintf("Solution 3 is: y = %6.3f",y2))
 
     let y_low = 0
     let y_high = 2
     let num_intervals = 30
 
     y2 = GetHighestCubicDepth(A,B,C,D,tolerance,max_iterations,y_low,y_high, num_intervals,debug)
-    console.log(`The highest solution to this cubic is: y = ${y2}`)
+    console.log(sprintf("The highest solution to this cubic is: y = %6.3f",y2))
 
-    debug = 2
+    debug = 0
     positive_roots = GetPositiveCubicDepths(A,B,C,D,tolerance,max_iterations,y_low,y_high, num_intervals,debug)
     //console.log(positive_roots)
     for(let i=0; i < positive_roots.length; i++){
         let root = positive_roots[i]
-        console.log(`Positive solution ${i} to this cubic is: y = ${root}`)
         console.log(sprintf("Positive solution %d to this cubic is: y = %6.3f",i,root))
     }
- //
 }
