@@ -223,5 +223,5 @@ function TestSecantEnergyFunctions(){
         let root = positive_roots[i]
         console.log(`Positive solution ${i} to this cubic is: y = ${root}`)
     }
-
+ //
 }

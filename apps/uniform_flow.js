@@ -153,7 +153,7 @@ function CalcIt({linVal_Q, linVal_n, linVal_b, linVal_s, linVal_So}) {
         area: sec_props.A, //.toPrecision(3),
         section_props: sec_props,
         plots: [prmap],
-        canvas: ['canvas'],
+        canvas: ['canvas']
     };
 }
 
